@@ -1,16 +1,10 @@
-# Zadanie
+#!/bin/bash
 
-#Napisać program, który:
-#1. zapyta użytkownika o nazwę katalogu
-#2. Utworzy taki katalog
-#3. Utworzy w nim plik o nazwie `test.txt` zawierający bieżącą datę
-
-#!/bib/bash
-
-echo "Podaj nazwę katalogu"
-read NAZWA
+#echo "Podaj nazwę katalogu"
+read -p "Podaj nazwę katalogu: " NAZWA
 mkdir "$NAZWA"
-touch "$NAZWA"/test.txt
-date > test.txt
+#touch "$NAZWA"/test.txt
+date > "$NAZWA"/test.txt
 
 exit 0
+
