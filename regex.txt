@@ -1,0 +1,7 @@
+cat dane | egrep '^.*[,].+[@].+[,].*$' | column -t -s , # wyświetla linie z pliku dane w których są maile oraz porządkuje dane w kolumny
+cat dane | egrep --color -o '[a-z]+[@].+[.][a-z]{3}' # wyświetla z pliku dane same maila, można policzyć wc -l lub zapisac w pliku > plik.txt
+cat dane | egrep --color '\<\w+[@]\w+[.]\w{2,3}\>' # inny zapis wyświetl maile
+cat dane | egrep -v ',,|^,|,$' # linie z 4 wartościami
+cat dane | egrep --color -o '^\<\w+\>' | tee imiona.txt | wc -l # wypisuje, liczy, zapisuje do pliku imiona z danych
+cat dane | egrep --color -o '^\<\w+\>' | sort | uniq -c # sortuje, brak powtórzeń
+cat dane | egrep --color '\<\w+[@]\w+[.]gov\>' # ile maili z konkretną domeną
