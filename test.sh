@@ -1,10 +1,7 @@
 #!/bin/bash
 
-#echo "Podaj nazwę katalogu"
-read -p "Podaj nazwę katalogu: " NAZWA
-mkdir "$NAZWA"
-#touch "$NAZWA"/test.txt
-date > "$NAZWA"/test.txt
+read -p "Podaj swój rok urodzenia: " ROK_URO
+
+echo "Masz $(( 2022 - $ROK_URO)) lat"
 
 exit 0
-
