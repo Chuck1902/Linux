@@ -1,7 +1,63 @@
-cat dane | egrep '^.*[,].+[@].+[,].*$' | column -t -s , # wyświetla linie z pliku dane w których są maile oraz porządkuje dane w kolumny
-cat dane | egrep --color -o '[a-z]+[@].+[.][a-z]{3}' # wyświetla z pliku dane same maila, można policzyć wc -l lub zapisac w pliku > plik.txt
-cat dane | egrep --color '\<\w+[@]\w+[.]\w{2,3}\>' # inny zapis wyświetl maile
-cat dane | egrep -v ',,|^,|,$' # linie z 4 wartościami
-cat dane | egrep --color -o '^\<\w+\>' | tee imiona.txt | wc -l # wypisuje, liczy, zapisuje do pliku imiona z danych
-cat dane | egrep --color -o '^\<\w+\>' | sort | uniq -c # sortuje, brak powtórzeń
-cat dane | egrep --color '\<\w+[@]\w+[.]gov\>' # ile maili z konkretną domeną
+# wyświetla linie z pliku dane w których są maile oraz porządkuje dane w kolumny
+cat dane | egrep '^.*[,].+[@].+[,].*$' | column -t -s , 
+
+# wyświetla z pliku dane same maila, można policzyć wc -l lub zapisac w pliku > plik.txt
+cat dane | egrep --color -o '[a-z]+[@].+[.][a-z]{3}' 
+
+# inny zapis wyświetl maile
+cat dane | egrep --color '\<\w+[@]\w+[.]\w{2,3}\>' 
+
+# linie z 4 wartościami
+cat dane | egrep -v ',,|^,|,$' 
+
+# wypisuje, liczy, zapisuje do pliku imiona z danych
+cat dane | egrep --color -o '^\<\w+\>' | tee imiona.txt | wc -l 
+
+# sortuje, brak powtórzeń
+cat dane | egrep --color -o '^\<\w+\>' | sort | uniq -c 
+
+# ile maili z konkretną domeną
+cat dane | egrep --color '\<\w+[@]\w+[.]gov\>' 
+
+# słowa, które zaczynają się taką samą literą x 2 i kończą ale w odwrotnej kolejności
+cat plik.txt | egrep -io '\<(\w)(\w)[[:graph:]]*\2\1\>' | sort | uniq -i | wc -l
+
+# linie ze słowami min2 zakończonymi punktorem
+cat plik.txt | egrep -io '\<\w+\>[[:punct:]].*\<\w+\>[[:punct:]]' | wc- -l
+
+# slowo kończy się i zaczyna taką samą literą jak pierwsze słowo w linii
+cat plik.txt | egrep -i '^[[:blank:]]*[[:punct:]]*\<(\w)\w*\>.*\<\1\w*\1\>'
+
+# slowo zaczyna się na 1 litere słowa pierwszego w lini i kończy się na ostatnią litere słowa pierwszego w linii
+cat plik.txt | egrep -i '^[[:blank:]]*[[:punct:]]*\<(\w)\w*(\w)\>.*\<\1\w*\2\>' 
+
+# linie gdzie słowa są dłuższe nić 4 litery
+cat plik.txt | egrep -iv '[[:blank:]]*[[:punct:]]*\<\w{,3}\>' | egrep -v '^$'
+
+# linie gdzie słowa są dłuższe nić 4 litery --> wejście z pliku
+cat plik.txt | egrep -iv -f regex.txt
+
+                            regex.txt
+                            [[:blank:]]*[[:punct:]]*\<\w{,3}\>
+                            ^$
+
+# parzysta liczba wysąpień danego wyrażenia w tekscie
+cat plik.txt | egrep '^([^s]*[s][^s]*[s])*[^s]$'
+
+# każde słowo zakończone znakiem interpunkcyjnym składa się z parzystej liczny liter
+cat plik.txt | egrep '\<(\w\w)*\>[[:punct:]]'
+
+# każde słowo zakończone znakiem interpunkcyjnym składa się z nieparzystej liczny liter
+cat plik.txt | egrep '\<\w(\w\w)*\>[[:punct:]]'
+
+#
+cat plik.txt | egrep '(^\<\w{3}\>) | (\<\w+\>[[:punct:]]+[[:blank:]]*$) | (\<\w{9,}\>)'
+
+#
+cat plik.txt | egrep -f regex.txt
+
+                        regex.txt
+                        ^\<\w{3}\>
+                        \<\w+\>[[:punct:]]+[[:blank:]]*$
+                        \<\w{9,}\>
+
